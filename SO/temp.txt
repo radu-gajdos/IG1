@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(int argc, char* argv[]) {
+    int n = 5;
+
+    pid_t pid = fork();
+
+    if (pid == -1) {
+        perror("Erroare sa faca fork pe proces!");
+        exit(EXIT_FAILURE);
+    } else if (pid == 0) {//deci asta ii Kindporzess
+        int s = 0;
+        for (int i = 1; i <= n; i++) {
+            int n = i * i * i;
+            s += n;
+        }
+        printf("Summe ist gelich: %d\n", s);
+        exit(EXIT_SUCCESS);
+    } else {//asta ii Vaterprozess  
+        wait(NULL);
+        printf("Kindprozess fertig.\n");
+    }
+
+    return 0;
+}

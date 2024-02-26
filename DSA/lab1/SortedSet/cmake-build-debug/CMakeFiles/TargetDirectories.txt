@@ -1,0 +1,3 @@
+C:/Users/Radu/Desktop/ADS/lab1/SortedSet/cmake-build-debug/CMakeFiles/SortedSet.dir
+C:/Users/Radu/Desktop/ADS/lab1/SortedSet/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Radu/Desktop/ADS/lab1/SortedSet/cmake-build-debug/CMakeFiles/rebuild_cache.dir

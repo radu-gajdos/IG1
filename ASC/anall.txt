@@ -1,0 +1,5 @@
+reihen summe konvergenz
+taylor plynom + restglied
+extremstellen
+uneigentliche integralen
+mehrfache integralen

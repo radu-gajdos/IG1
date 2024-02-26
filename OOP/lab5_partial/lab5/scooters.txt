@@ -1,0 +1,3 @@
+LAP, 23, ccc, 23/05/2003, Piata Mihai Vitezul, geparkt
+Lua, 24, aaa, 30/07/2024, Decebal 100, geparkt
+spl, 28, lls, 06/02/2021, Fabricii, geparkt

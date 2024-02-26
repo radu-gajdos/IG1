@@ -1,0 +1,2 @@
+PS C:\Users\Radu\Desktop\AG\lab1> g++ *.cpp -o out
+PS C:\Users\Radu\Desktop\AG\lab1> ./out.exe

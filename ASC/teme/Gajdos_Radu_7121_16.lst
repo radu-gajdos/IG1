@@ -1,0 +1,98 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13                                      ; ...
+    14                                      ;Ubung 16.
+    15 00000000 3C                          a db 00111100b
+    16 00000001 3C3C000000000000            b dq 0011110000111100b
+    17 00000009 00000000                    c dd 00000000000000000000000000000000b
+    18                                  ; our code starts here
+    19                                  segment code use32 class=code
+    20                                      start:
+    21                                          ; ...
+    22                                          
+    23                                          ;die Bits 24-31 von C sind die gleichen wie die Bits von A
+    24                                          
+    25 00000000 668B1D[09000000]                mov bx,[c]
+    26 00000007 668B0D[0D000000]                mov cx,[c+4]
+    27                                          ;cx:bx=c
+    28 0000000E A0[00000000]                    mov al,[a]
+    29                                          ;al=a=00111100b
+    30 00000013 24FF                            and al, 11111111b
+    31                                          ;al=a => alle bits von a 
+    32 00000015 08C5                            or ch,al
+    33                                          ;wir verfugen sie in die bits 31-24 aus c (weil c auf cx:bx definiert ist => bits 31-24 =ch)
+    34                                          ;cx:bx = 00111100000000000000000000000000b
+    35                                          
+    36                                          ;die Bits 16-23 von C sind die Invertierung der Bits des niedrigsten Bytes von B
+    37                                          
+    38 00000017 66A1[01000000]                  mov ax,[b]
+    39                                          ;ax=0011110000111100b
+    40 0000001D 66F7D0                          not ax
+    41                                          ;ax=1100001111000011b
+    42 00000020 6625FF00                        and ax, 0000000011111111b
+    43                                          ;ax=0000000011000011b
+    44                                          ;wir izolieren die niedrgisten bytes von b
+    45 00000024 6609C1                          or cx,ax
+    46                                          ;wir fugen sie in die bits 16-23 aus c (bits 16-23 reprezentieren cl)
+    47                                          ;cx:bx=00111100110000110000000000000000b
+    48                                          
+    49                                          ;die Bits 10-15 von C haben den Wert 1
+    50                                          
+    51 00000027 6681CB00FC                      or bx, 1111110000000000b
+    52                                          ;dem wert 1 auf dem bits 15-10 aus c fugen
+    53                                          ;cx:bx=00111100110000111111110000000000b
+    54                                          
+    55                                          ;die Bits 2-9 von C sind die gleichen wie die Bits des höchsten Bytes von B
+    56                                          
+    57 0000002C 66A1[01000000]                  mov ax,[b]
+    58 00000032 662500FF                        and ax, 1111111100000000b
+    59                                          ;wir izolieren die hochsten bits aus b
+    60                                          ;ax=0011110000000000b
+    61 00000036 66C1C806                        ror ax,6
+    62                                          ;rotieren es um es richtig im bx zu fugen
+    63                                          ;ax=0000000011110000b
+    64 0000003A 6609C3                          or bx,ax
+    65                                          ;wir fuegen die hochstens bytes von b auf dem bits 2-9 von c
+    66                                          ;cx:bx=00111100110000111111110011110000b
+    67                                          
+    68                                          ;die Bits 0-1 enthalten beide den Wert des Vorzeichenbits von A
+    69                                          
+    70 0000003D A0[00000000]                    mov al,[a]
+    71                                          ;al=a=00111100b
+    72 00000042 2480                            and al, 10000000b
+    73                                          ;vorzeichen bit (MSB) von a izolieren
+    74                                          ;al=00000000b --- (wenn a=1011100=>al=10000000b)
+    75 00000044 C0C807                          ror al,7
+    76                                          ;rotieren es um es richtig im c zu fugen
+    77                                          ;al=00000000b --- (wenn a=1011100=>al=00000001b)
+    78 00000047 08C3                            or bl,al
+    79                                          ;wir fuegen die vorzeichen bit von a auf dem bit 0 von c
+    80                                          ;bl=11110000b --- (wenn a=1011100=>al=11110001b)
+    81 00000049 D0C0                            rol al,1
+    82                                          ;wieder rotieren es um es richtig im c zu fugen
+    83                                          ;al=00000000b --- (wenn a=1011100=>al=00000010b)
+    84 0000004B 08C3                            or bl,al
+    85                                          ;wir fuegen die vorzeichen bit von a auf dem bit 1 von c
+    86                                          ;cx:bx=00111100110000111111110011110000b
+    87                                          
+    88                                          
+    89                                          
+    90                                          
+    91                                          
+    92                                          
+    93                                          
+    94                                          
+    95                                          
+    96                                          ; exit(0)
+    97 0000004D 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    98 0000004F FF15[00000000]                  call    [exit]       ; call exit to terminate the program

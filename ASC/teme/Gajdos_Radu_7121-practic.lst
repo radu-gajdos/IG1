@@ -1,0 +1,113 @@
+     1                                  ;man liest zahlen von der tastatur un man speichert die zahlen die durch 3 teilbar sind in der file 'output.txt'
+     2                                  ;jede zahl wird getestet ob es durch 3 teilbar is oder nicht
+     3                                  ;wenn die zahl is dann es wird in file gespeichert, wenn nicht dann nichts passiert
+     4                                  bits 32 
+     5                                  global start        
+     6                                  
+     7                                  
+     8                                  extern exit, printf, scanf, fopen, fclose, fprintf, fread    
+     9                                  import exit msvcrt.dll    
+    10                                  import printf msvcrt.dll
+    11                                  import scanf msvcrt.dll 
+    12                                  import fopen msvcrt.dll
+    13                                  import fclose msvcrt.dll
+    14                                  import fprintf msvcrt.dll
+    15                                  import fread msvcrt.dll
+    16                                  
+    17                                  
+    18                                  global start        
+    19                                  
+    20                                  extern exit               
+    21                                  import exit msvcrt.dll    
+    22                                  
+    23                                  segment data use32 class=data
+    24                                  
+    25 00000000 6F75747075742E7478-         file_name db "output.txt", 0   ; filename to be created
+    25 00000009 7400               
+    26 0000000B 7700                        access_mode db "w", 0       ; file access mode:; w - creates an empty filefor writing
+    27 0000000D FFFFFFFF                    file_descriptor dd -1       ; variable to hold the file
+    28                                      
+    29 00000011 00000000                    arr dd 0                      ; liste initializieren
+    30 00000015 256400                      format db "%d", 0          ; format deci output
+    31 00000018 257300                      format_text db "%s", 0          ; format deci output
+    32 0000001B 617272203D2000              message db "arr = ", 0        ; message input
+    33 00000022 256300                      blank db "%c",0
+    34 00000025 03                          trei db 3
+    35 00000026 00000000                    arr_nou dd 0
+    36 0000002A 00                          sem db 0
+    37 0000002B 4B65696E65205A6168-         message_no db "Keine Zahl"
+    37 00000034 6C                 
+    38                                      
+    39                                  segment code use32 class=code
+    40                                      start:
+    41                                      
+    42 00000000 68[0B000000]                    push dword access_mode
+    43 00000005 68[00000000]                    push dword file_name
+    44 0000000A FF15[00000000]                  call [fopen]
+    45                                          ;file oeffnen
+    46 00000010 83C408                          add esp, 4*2 ;Stack waschen
+    47                                          
+    48 00000013 A3[0D000000]                    mov [file_descriptor], eax ; store the filedescriptor returned by fopen
+    49 00000018 83F800                          cmp eax, 0
+    50 0000001B 7478                            je final                   ;wenn dem file nicht korrekt gebildet oder geoeffnet war -> final
+    51                                          
+    52 0000001D B900000000                      mov ecx,0
+    53 00000022 68[1B000000]                    push dword message
+    54 00000027 FF15[00000000]                  call [printf]
+    55 0000002D 83C404                          add esp, 4*1
+    56                                          
+    57                                          repeta:
+    58                                              
+    59 00000030 68[11000000]                        push dword arr
+    60 00000035 68[15000000]                        push dword format
+    61 0000003A FF15[00000000]                      call [scanf]
+    62 00000040 83C408                              add esp, 4*2
+    63                                              
+    64                                              
+    65                                              ; in arr Zahl im hex tun
+    66 00000043 8B1D[11000000]                      mov ebx,[arr]
+    67 00000049 83FB00                              cmp ebx,0
+    68 0000004C 7447                                je final
+    69                                              ;bei 0 stoppen
+    70                                              
+    71                                              
+    72 0000004E A1[11000000]                        mov eax,[arr]
+    73 00000053 F635[25000000]                      div byte [trei]
+    74 00000059 80FC00                              cmp ah,0
+    75 0000005C 75D2                                jne repeta
+    76                                              
+    77 0000005E 89D8                                mov eax,ebx
+    78 00000060 B600                                mov dh,0
+    79 00000062 B201                                mov dl,1
+    80                                              div_trei:
+    81                                              
+    82 00000064 B901000000                          mov ecx,1
+    83 00000069 890D[2A000000]                      mov [sem],ecx
+    84                                              
+    85 0000006F 53                                  push dword ebx
+    86 00000070 68[15000000]                        push dword format
+    87 00000075 FF15[00000000]                      call [printf]
+    88 0000007B 83C408                              add esp, 4*2
+    89                                              
+    90 0000007E 53                                  push dword ebx
+    91 0000007F 68[15000000]                        push dword format
+    92 00000084 FF35[0D000000]                      push dword [file_descriptor]
+    93 0000008A FF15[00000000]                      call [fprintf]
+    94 00000090 83C408                              add esp, 4*2
+    95                                              
+    96 00000093 EB9B                                jmp repeta
+    97                                  
+    98                                          final:
+    99                                          
+   100 00000095 803D[2A000000]00                cmp byte [sem],0
+   101 0000009C 7514                            jne gata
+   102 0000009E 68[2B000000]                    push dword message_no
+   103 000000A3 FF35[0D000000]                  push dword [file_descriptor]
+   104 000000A9 FF15[00000000]                  call [fprintf]
+   105 000000AF 83C408                          add esp, 4*2
+   106                                          
+   107                                      
+   108                                          gata:
+   109                                      ; exit(0)
+   110 000000B2 6A00                        push    dword 0      ; push the parameter for exit onto the stack
+   111 000000B4 FF15[00000000]              call    [exit]       ; call exit to terminate the program

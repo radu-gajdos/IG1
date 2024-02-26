@@ -1,0 +1,75 @@
+void store(string filename, Complex *vector){
+	ofstream out(filename);
+	for(int i=0;i<vector.size();i++){
+		out<<i<<" "<<vector[i].real<<" "<<vector[i].img<<endl;
+	}
+}
+
+class Computer:
+{
+	public: 
+		float prozGeschw;
+		int speichern;
+	private:
+		string toString(){
+			string prozGeschwStr = to_string(prozGeschw);
+			string speichernStr = to_string(speichern;);
+			return "Proz Geschq.: "+prozGeschwStr+" Speichern: "+speichernStr;
+		}
+}
+
+class Smartphone: public Computer
+{
+	public: 
+		string brand;
+	private:
+		string toString(){
+			string prozGeschwStr = to_string(prozGeschw);
+			string speichernStr = to_string(speichern;);
+			string brandStr = to_string(brand);
+			return "Proz Geschq.: "+prozGeschwStr+" Speichern: "speichernStr+" Brand: "+brandStr;
+		}
+}
+
+class Laptop: public Computer
+{
+	public: 
+		string brand;
+	private:
+		string toString(){
+			string prozGeschwStr = to_string(prozGeschw);
+			string speichernStr = to_string(speichern;);
+			string brandStr = to_string(brand);
+			return "Proz Geschq.: "+prozGeschwStr+" Speichern: "speichernStr+" Brand: "+brandStr;
+		}
+}
+
+#include <iostream>
+#include <cassert>
+using namespace std;
+
+//es sei einem Compostite struct
+
+int main(){
+	Composite comp;
+	comp.len=0;
+	assert(comp.len==0);
+	increase(comp);
+	assert(comp.len==3);
+	return 0;
+}
+
+
+
+#include <iostream>
+#include <cassert>
+using namespace std;
+
+int main(){
+
+	vector<int> vec={1,2,3};
+	reset(vec);
+	assert(vec[0]==1);
+	assert(vec[2]==0);
+	return 0;
+}

@@ -1,0 +1,10 @@
+functia lastIndex ( Telem e)
+se creaza un iterator it si se amplaseaza pe prima pozitie (cu fucntia first)
+se initializaeaaza un contor cu 0, in cazul nostru i     int i=0;
+se creeaza o variabila index final, ce se initializeaza cu  -1     int indexFinal = -1;
+cu un while iteram asupra tuturor cheiilor    while (it.valid()) 
+	daca elementul de pe pozitia iteratorului este egal cu Elementul precizat if (getElement(it) == e)
+		atunci index final ia valoarea contu=orului nostru i
+	contorul creste i++
+	iteratorul trece la urmatorul element         it.next();
+la final returnam lastIndex asadar indexul ultimei aparitii a elementului e, iar in caz ca elementul nu se afla in lista returnam -1

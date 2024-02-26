@@ -1,0 +1,3 @@
+aaa,1,a,11/12/1111,a,reserviert
+bbb,2,a,11/11/1111,a,geparkt
+ccc,3,a,11/11/1111,a,reserviert

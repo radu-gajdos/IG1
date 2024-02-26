@@ -1,0 +1,7 @@
+# ninja log v5
+1	1750	7018054575546055	CMakeFiles/AG.dir/lab1/app.cpp.obj	942a60fb3afff973
+15	1878	7018054576832035	CMakeFiles/AG.dir/lab1/GraphAdjListe.cpp.obj	acdf3ee6ad0b9fca
+1878	2053	7018054578468626	AG.exe	11f014403433ef7f
+5	1366	7018080580579262	CMakeFiles/AG.dir/lab2/GraphKantListe.cpp.obj	85fe296696aad040
+16	1525	7018081120772998	CMakeFiles/AG.dir/lab2/app.cpp.obj	28746d24aadb6315
+5	1596	7018081121472954	CMakeFiles/AG.dir/lab2/GraphKantListe.cpp.obj	85fe296696aad040

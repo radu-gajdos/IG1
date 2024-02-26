@@ -1,0 +1,10 @@
+Lenkrad 4 Raedern
+Lenkrad 0 Motor
+Lenkrad 0 Pedale
+Lenkrad 0 Batterie
+Lenkrad 0 Horn
+Lenkrad 0 Radauflage
+Lenkrad 1 Horn
+Raedern 1 Radauflage
+Motor 3 Pedale
+Motor 1 Batterie

@@ -1,0 +1,8 @@
+# ninja log v5
+2	721	7195200166905880	build.ninja	8264700150dd1185
+6	707	7060317481693937	CMakeFiles/lab5_v2.dir/Elektroscooter.cpp.obj	30f762adf6cb8581
+22	1208	7060318327980321	CMakeFiles/lab5_v2.dir/ScooterController.cpp.obj	a28e79ba36ed4c1f
+39	1127	7060318327155424	CMakeFiles/lab5_v2.dir/ScooterUI.cpp.obj	d3b4fd5444dfc4ce
+62	1473	7060256992520706	CMakeFiles/lab5_v2.dir/ScooterRepo.cpp.obj	fe7ae059d67dd97f
+1374	1753	7060318333241581	lab5_v2.exe	aab2407eeb6d407a
+5	1373	7060318329617464	CMakeFiles/lab5_v2.dir/main.cpp.obj	d23e25e2ded3a72

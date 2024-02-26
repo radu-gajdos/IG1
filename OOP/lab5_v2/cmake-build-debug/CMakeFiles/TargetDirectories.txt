@@ -1,0 +1,4 @@
+C:/Users/Radu/Desktop/facultate/sem2/OOP/lab5_v2/cmake-build-debug/CMakeFiles/lab5_v2.dir
+C:/Users/Radu/Desktop/facultate/sem2/OOP/lab5_v2/cmake-build-debug/CMakeFiles/test.dir
+C:/Users/Radu/Desktop/facultate/sem2/OOP/lab5_v2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Radu/Desktop/facultate/sem2/OOP/lab5_v2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

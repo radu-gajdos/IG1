@@ -1,0 +1,11 @@
+# ninja log v5
+42	811	7049059325961227	CMakeFiles/lab4.dir/Fruit.cpp.obj	93b0c461e546a68b
+81	1404	7049059331878181	CMakeFiles/lab4.dir/Controller.cpp.obj	3d0c4f22e07b1826
+25	1167	7049059329542426	CMakeFiles/lab4.dir/FruitRepository.cpp.obj	2a8455df7f054a30
+7	858	7031728455761796	CMakeFiles/lab4.dir/main.cpp.obj	42b27f7784236b4f
+62	1468	7049059332563253	CMakeFiles/lab4.dir/UI.cpp.obj	d386466d70f3765a
+1045	1386	7049051580869159	lab4.exe	b30917b032a014d
+7	1590	7049059333773516	CMakeFiles/lab4.dir/Shop.cpp.obj	e822f0816f857462
+2	729	7052544272152995	build.ninja	ed37b6760bfbfe57
+99	1470	7049059332593321	CMakeFiles/lab4.dir/Tests.cpp.obj	d20c67d9a038cf25
+1	32	0	clean	54a06fd83fad62cf

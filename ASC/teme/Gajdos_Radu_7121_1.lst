@@ -1,0 +1,74 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13                                      ; ...
+    14 00000000 0F0F                        a dw 0000111100001111b
+    15 00000002 F0F0                        b dw 1111000011110000b
+    16                                  ; our code starts here
+    17                                  segment code use32 class=code
+    18                                      start:
+    19                                          ; ...
+    20                                          
+    21 00000000 66B90000                        mov cx,0
+    22 00000004 66BB0000                        mov bx,0
+    23                                          
+    24                                          ;die Bits 0-3 von C sind diegleichen wie die Bits 5-8 von B
+    25                                          
+    26                                          
+    27 00000008 66A1[02000000]                  mov ax,[b]
+    28                                          ;ax=   1111000011110000b
+    29 0000000E 6625E001                        and ax,0000000111100000b
+    30                                          ;wir izolieren die bits 5-8 aus b
+    31                                          ;ax=0000000011100000b
+    32 00000012 66C1C805                        ror ax,5
+    33                                          ;rotieren es um es richtig im bx zu fugen
+    34                                          ;ax=0000000000000111b
+    35 00000016 6609C3                          or bx,ax
+    36                                          ;bx=0000000000000111b
+    37                                          ;cx:bx=00000000000000000000000000000111b
+    38                                          
+    39                                          ;die Bits 4-8 von C sind die gleichen wie die Bits 0-4 von A
+    40                                          
+    41 00000019 66A1[00000000]                  mov ax,[a]
+    42                                          ;ax=   0000111100001111b
+    43 0000001F 6683E01F                        and ax,0000000000011111b
+    44                                          ;wir izolieren die bits 0-4 aus a
+    45                                          ;ax=   0000000000001111b
+    46 00000023 66C1C004                        rol ax,4
+    47                                          ;rotieren es um es richtig im bx zu fugen
+    48                                          ;ax=0000000011110000b
+    49 00000027 6609C3                          or bx,ax
+    50                                          ;bx=0000000011110111b
+    51                                          ;cx:bx=00000000000000000000000011110111b
+    52                                          
+    53                                          ;die Bits 9-15 von C sind die gleichen wie die Bits 6-12 von A
+    54                                           
+    55 0000002A 66A1[00000000]                  mov ax,[a]
+    56                                          ;ax=   0000111100001111b
+    57 00000030 6625C01F                        and ax,0001111111000000b
+    58                                          ;ax=   0000111100000000b
+    59 00000034 66C1C003                        rol ax,3
+    60                                          ;ax=   0111100000000000b
+    61 00000038 6609C3                          or bx,ax
+    62                                          ;bx=   0111100011110111b
+    63                                          ;cx:bx=00000000000000000111100011110111b
+    64                                          
+    65                                          ;die Bits 16-31 von C sind die gleichen wie die Bits von B
+    66 0000003B 66A1[02000000]                  mov ax,[b]
+    67                                          ;ax=   1111000011110000b
+    68 00000041 6609C1                          or cx,ax
+    69                                          ;cx=   1111000011110000b
+    70                                          ;cx:bx=11110000111100000111100011110111b
+    71                                          
+    72                                          ; exit(0)
+    73 00000044 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    74 00000046 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

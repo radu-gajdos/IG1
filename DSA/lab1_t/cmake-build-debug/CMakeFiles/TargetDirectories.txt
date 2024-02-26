@@ -1,0 +1,5 @@
+C:/Users/Radu/Desktop/ADS/lab1_t/cmake-build-debug/CMakeFiles/lab1_t.dir
+C:/Users/Radu/Desktop/ADS/lab1_t/cmake-build-debug/CMakeFiles/package.dir
+C:/Users/Radu/Desktop/ADS/lab1_t/cmake-build-debug/CMakeFiles/package_source.dir
+C:/Users/Radu/Desktop/ADS/lab1_t/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Radu/Desktop/ADS/lab1_t/cmake-build-debug/CMakeFiles/rebuild_cache.dir

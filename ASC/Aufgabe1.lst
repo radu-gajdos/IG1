@@ -1,0 +1,177 @@
+     1                                  bits 32 
+     2                                  global start        
+     3                                  
+     4                                  
+     5                                  extern exit, printf, scanf, fopen, fclose, fprintf, fread    
+     6                                  import exit msvcrt.dll    
+     7                                  import printf msvcrt.dll
+     8                                  import scanf msvcrt.dll 
+     9                                  import fopen msvcrt.dll
+    10                                  import fclose msvcrt.dll
+    11                                  import fprintf msvcrt.dll
+    12                                  import fread msvcrt.dll
+    13                                  
+    14                                  
+    15                                  global start        
+    16                                  
+    17                                  extern exit               
+    18                                  import exit msvcrt.dll    
+    19                                  
+    20                                  segment data use32 class=data
+    21                                      ; Number
+    22 00000000 5A61686C3D2000              message db "Zahl= ", 0
+    23 00000007 256400                      format_number db "%d", 0
+    24 0000000A 00000000                    n dd 0
+    25                                     
+    26                                      ; Text from file
+    27 0000000E 746578742E74787400          file_name db "text.txt", 0
+    28 00000017 7200                        access_mode db "r", 0
+    29 00000019 FFFFFFFF                    file_descriptor dd -1
+    30                                      len equ 250
+    31 0000001D 00<rept>                    text times len db 0
+    32                                      
+    33                                      ; For printing
+    34 00000117 00<rept>                    wort times 50 db 0
+    35 00000149 0A257300                    print_format db 10 ,"%s" , 0 ; 10 is to write on a new line
+    36                                  
+    37                                  segment code use32 class=code
+    38                                      number:
+    39                                          ; Print message for reading
+    40 00000000 68[00000000]                    push dword message
+    41 00000005 FF15[00000000]                  call [printf]
+    42 0000000B 83C404                          add esp, 4
+    43                                          
+    44                                          ;Read number
+    45 0000000E 68[0A000000]                    push dword n
+    46 00000013 68[07000000]                    push dword format_number
+    47 00000018 FF15[00000000]                  call [scanf]
+    48 0000001E 83C408                          add esp, 4*2
+    49 00000021 C3                              ret
+    50                                          
+    51                                      open: ; Open file
+    52 00000022 68[17000000]                    push dword access_mode
+    53 00000027 68[0E000000]                    push dword file_name
+    54 0000002C FF15[00000000]                  call [fopen]
+    55 00000032 83C408                          add esp, 4*2
+    56 00000035 A3[19000000]                    mov [file_descriptor], eax
+    57 0000003A C3                              ret
+    58                                          
+    59                                      read: ; Read file and put text in "text"
+    60 0000003B FF35[19000000]                  push dword [file_descriptor]
+    61 00000041 68FA000000                      push dword len
+    62 00000046 6A01                            push dword 1
+    63 00000048 68[1D000000]                    push dword text
+    64 0000004D FF15[00000000]                  call [fread]
+    65 00000053 83C410                          add esp, 4*4
+    66 00000056 C3                              ret
+    67                                          
+    68                                      close: ; Close file
+    69 00000057 FF35[19000000]                  push dword [file_descriptor]
+    70 0000005D FF15[00000000]                  call [fclose]
+    71 00000063 83C404                          add esp, 4
+    72                                          
+    73                                      compare:
+    74 00000066 A1[0A000000]                    mov eax, dword [n]
+    75 0000006B 8B5C2404                        mov ebx, [esp+4] ; we pushed ebx on the stack
+    76 0000006F 38D8                            cmp al, bl
+    77 00000071 7513                            jne notEqual ; if number of letters != n
+    78                                          
+    79                                          equal: ; Print the word
+    80 00000073 68[17010000]                    push dword wort
+    81 00000078 68[49010000]                    push dword print_format
+    82 0000007D FF15[00000000]                  call [printf]
+    83 00000083 83C408                          add esp, 4*2
+    84                                          
+    85                                          notEqual:
+    86 00000086 C3                              ret
+    87                                          
+    88                                      reset_wort: ; Reset variable "wort"
+    89 00000087 8B4C2404                        mov ecx, [esp+4]
+    90 0000008B E30C                            jecxz resetDone
+    91 0000008D B300                            mov bl, 0
+    92 0000008F BF[17010000]                    mov edi, wort
+    93                                          reseting:
+    94 00000094 881F                                mov [edi], bl ; fill spaces with 0
+    95 00000096 47                                  inc edi
+    96 00000097 E2FB                            loop reseting
+    97                                          resetDone:
+    98 00000099 C3                              ret
+    99                                          
+   100                                      start:
+   101                                          ; Read number
+   102 0000009A E861FFFFFF                      call number
+   103                                          
+   104                                          ; Read file
+   105 0000009F E87EFFFFFF                      call open
+   106 000000A4 A1[19000000]                    mov eax, [file_descriptor]
+   107 000000A9 83F800                          cmp eax, 0
+   108 000000AC 7472                            je fertig
+   109 000000AE E888FFFFFF                      call read
+   110 000000B3 E89FFFFFFF                      call close
+   111                                          ; Read done
+   112                                          
+   113                                          ;------------------------------------------------
+   114                                          ;Actual code starts here!!!
+   115 000000B8 B9FA000000                      mov ecx, dword len
+   116 000000BD BE00000000                      mov esi, 0 ; Points to letter in "text"
+   117 000000C2 BF00000000                      mov edi, 0 ; Point to where to write the letter in "wort"
+   118 000000C7 B800000000                      mov eax, 0 ; Used to store next letter
+   119 000000CC BB00000000                      mov ebx, 0 ; Stores the length of "wort"
+   120 000000D1 E34D                            jecxz fertig
+   121                                          
+   122                                          repeta:
+   123                                              
+   124 000000D3 8A86[1D000000]                      mov al, [text+esi] ; Move next letter in eax
+   125                                              
+   126                                              
+   127 000000D9 83F800                              cmp eax, 0 ; If it is 0 jump to last compare (code is ending)
+   128 000000DC 7439                                je lastCompare ; When the text has ended
+   129                                              
+   130 000000DE 83F82E                              cmp eax, 2eh
+   131 000000E1 7407                                je punkt_space ; If is a SPACE
+   132 000000E3 83F820                              cmp eax, 20h
+   133 000000E6 7402                                je punkt_space ; If is a '.'
+   134                                              
+   135 000000E8 EB22                                jmp buchstabe; If it not '0', ' ' nor '.', then add the letter to the word
+   136                                              
+   137                                              punkt_space:
+   138 000000EA 60                                      pushad
+   139 000000EB 53                                      push ebx ; length of the current word
+   140 000000EC E875FFFFFF                              call compare ; compare length (current word VS target length)
+   141 000000F1 83C404                                  add esp, 4
+   142                                                  
+   143 000000F4 61                                      popad
+   144 000000F5 60                                      pushad ; pop and save again the registers
+   145                                                  
+   146 000000F6 53                                      push ebx
+   147 000000F7 E88BFFFFFF                              call reset_wort ; reset 'wort'
+   148 000000FC 83C404                                  add esp, 4
+   149                                                  
+   150 000000FF 61                                      popad
+   151 00000100 BB00000000                              mov ebx, 0 ; reset count
+   152 00000105 BF00000000                              mov edi, 0 ; Reset the pointer to first letter of 'wort'
+   153                                                  
+   154 0000010A EB08                                    jmp resume ; Resume
+   155                                              
+   156                                              
+   157                                              buchstabe: ; If it is a letter (gross oder klein)
+   158 0000010C 8887[17010000]                          mov [wort+edi], al
+   159 00000112 43                                      inc ebx
+   160 00000113 47                                      inc edi
+   161                                              
+   162                                              resume:
+   163 00000114 46                                  inc esi
+   164 00000115 E2BC                            loop repeta
+   165                                          
+   166                                          lastCompare:
+   167 00000117 53                                  push ebx ; length of the current word
+   168 00000118 E849FFFFFF                          call compare ; compare length (current word VS target length)
+   169 0000011D 83C404                              add esp, 4
+   170                                          
+   171                                          fertig:
+   172                                          ; exit(0)
+   173 00000120 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+   174 00000122 FF15[00000000]                  call    [exit]       ; call exit to terminate the program
+   175                                  
+   176                                          
+   177                                  

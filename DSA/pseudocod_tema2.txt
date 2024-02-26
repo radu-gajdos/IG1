@@ -1,0 +1,6 @@
+new Matrix t mit dimensions (cols, rows)
+for alle elemente von matrix (for im for)
+	get elem (element=t.elem(i,j)) und halt es in variabel
+	(wenn elem !=NULL_TELEM) modify Matrix t indem man dem elementen von i,j  auf j,i getan werden(t.modify(j,i,element))
+nach die fors weschele die header pointers von dem neuen matrix (t) mit dem eigentilchen matrix
+wechsele anzahl der Linien und Spalten (in caz ca matricea nu e patratica swapul acesta e inutil daca ea ii patratica)
