@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "kunde_id": 1,
+        "gerichte": [
+            {
+                "id": 1,
+                "portions_grosse": 500,
+                "preis": 35,
+                "zeit": 1
+            }
+        ],
+        "getranks": [
+            {
+                "id": 1,
+                "portions_grosse": 250,
+                "preis": 6,
+                "alc": 0
+            }
+        ],
+        "gesamt_kost": 41
+    }
+]

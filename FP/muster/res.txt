@@ -1,0 +1,6 @@
+Gheorghe,Dima,Advanced programming,10
+Alexandra,Galatan,Advanced programming,10
+Maria,Popescu,Advanced programming,9
+Paul,Pop,Advanced programming,5
+Marian,Stanescu,Advanced programming,7
+Vasile,Avram,Advanced programming,8

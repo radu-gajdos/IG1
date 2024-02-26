@@ -1,0 +1,24 @@
+menu()
+Vorba vine GUI - Funktion die dem User hilf dem 'Vorba vine App' zu benutzen
+Funktionen im menu():
+    -deseneaza() {def deseneaza befindet sich im 'des.py'}
+    -adauga_caracter() {def adauga_caracter befindet sich im 'add.py'}
+    -system() {wird benutzt nur um die Konsole zu befreien}
+
+deseneaza()
+Ugly writing - Funktion die mit Hilfe einer Dictionary un mehreren if-Statements,
+GROSSE Buchstaben des englishen Alphabets und selbst-eingetragene Charakters aus einem
+am Tastatur gegebenem strign zeichnet
+Funktionen im deseneaza():
+    -update_dictionar() {def update_dictionar befindet sich im 'dic.py}
+
+adauga_caracter()
+Picasso Simulator - Funktion die neue Charakters in dem Dictionary speichert. Der
+Turtle bewegt sich ins Konsole mit Hilfe des User (der Turtle bewegt sich durch dem
+schreiben der WASD Tasten). Bei jeder INPUT des User dem Befehl wird executiert und
+in dem 'dictionar.py' Datei gespeichert.
+
+update_dictionar():
+Biblia programului - Ist die Funktion die alle Befehle fur jeder im 'dictionar.txt' 
+sich befindeten Charaktern, UPDATET. Also diese Funktion shikt alle Charakter in dem
+"Long-term-Memory" und ist benutzt auch sie in dem "Short-term-Memory" wieder zu bringen
